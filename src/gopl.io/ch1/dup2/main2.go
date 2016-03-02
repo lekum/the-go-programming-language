@@ -6,10 +6,15 @@ import (
 	"os"
 )
 
+type lineCount struct {
+	count int
+	files []string
+}
+
 func main() {
-	counts := make(map[string]int)
+	counts := make(map[string]*lineCount)
 	if len(os.Args) == 1 {
-		countlines(os.Stdin, counts)
+		countlines(os.Stdin, "stdin", counts)
 	} else {
 		files := os.Args[1:]
 
@@ -18,21 +23,28 @@ func main() {
 			if err != nil {
 				fmt.Fprintf(os.Stderr, "dup2 error: %v\n", err)
 			}
-			countlines(f, counts)
+			countlines(f, file, counts)
 			f.Close()
 		}
-		for line, n := range counts {
-			if n > 1 {
-				fmt.Printf("%d\t%s\n", n, line)
+		for line, c := range counts {
+			if c.count > 1 {
+				fmt.Printf("%d\t%s\t%v\n", c.count, line, c.files)
 			}
 		}
 	}
 }
 
-func countlines(f *os.File, c map[string]int) {
+func countlines(f *os.File, filename string, c map[string]*lineCount) {
 	scanner := bufio.NewScanner(f)
 	for scanner.Scan() {
 		line := scanner.Text()
-		c[line]++
+		cline, ok := c[line]
+		if !ok {
+			// Creating a new lineCount and referencing it from the mapping
+			cline = new(lineCount)
+			c[line] = cline
+		}
+		cline.count++
+		cline.files = append(cline.files, filename)
 	}
 }
