@@ -35,4 +35,11 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed writing file: %s", err)
 	}
+	var employeeNames []struct {
+		Name string
+	}
+	if err = json.Unmarshal(data, &employeeNames); err != nil {
+		log.Fatalf("Failed unmarshalling JSON: %s", err)
+	}
+	fmt.Printf("%v\n", employeeNames)
 }
