@@ -23,6 +23,8 @@ func WaitForServer(url string) error {
 }
 
 func main() {
+	log.SetPrefix("wait: ")
+	log.SetFlags(0)
 	url := os.Args[1]
 	if err := WaitForServer(url); err != nil {
 		log.Fatalf("Site is down: %v\n", err)
