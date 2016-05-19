@@ -25,3 +25,8 @@ func (path Path) Distance() float64 {
 	}
 	return sum
 }
+
+func (p *Point) Invert() {
+	p.X = -p.X
+	p.Y = -p.Y
+}

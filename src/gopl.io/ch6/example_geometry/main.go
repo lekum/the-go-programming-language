@@ -10,6 +10,11 @@ func main() {
 	y := geometry.Point{X: 3, Y: 4}
 	fmt.Println(x)
 	fmt.Println(y)
+	x.Invert()
+	y.Invert()
+	fmt.Println(x)
+	fmt.Println(y)
+
 	fmt.Printf("Distance: %v\n", x.Distance(y))
 	perim := geometry.Path{
 		{1, 1},
@@ -18,4 +23,5 @@ func main() {
 		{1, 1},
 	}
 	fmt.Println(perim.Distance())
+
 }
