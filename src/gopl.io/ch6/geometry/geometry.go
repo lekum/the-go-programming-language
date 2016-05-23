@@ -30,3 +30,8 @@ func (p *Point) Invert() {
 	p.X = -p.X
 	p.Y = -p.Y
 }
+
+func (p *Point) ScaleBy(factor float64) {
+	p.X *= factor
+	p.Y *= factor
+}
